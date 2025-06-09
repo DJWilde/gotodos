@@ -1,9 +1,20 @@
 package data
 
-import "database/sql"
+import (
+	"database/sql"
+	"errors"
+)
 
-type Models struct {}
+var (
+	ErrRecordNotFound = errors.New("record not found")
+)
+
+type Models struct {
+	Users	UserModel
+}
 
 func NewModels(db *sql.DB) Models {
-	return Models{}
+	return Models{
+		Users: UserModel{DB: db},
+	}
 }
