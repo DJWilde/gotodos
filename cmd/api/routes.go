@@ -16,11 +16,11 @@ func (app *application) routes() http.Handler {
 	router.HandlerFunc(http.MethodPost, "/login", app.createTokenHandler)
 
 	// Todo routes
-	router.HandlerFunc(http.MethodGet, "/user/:userId/todos", app.getTodosByUserIdHandler)
-	router.HandlerFunc(http.MethodGet, "/todos/:id", app.getTodoByIdHandler)
-	router.HandlerFunc(http.MethodPost, "/todos", app.createTodoHandler)
-	router.HandlerFunc(http.MethodPatch, "/todos/:id", app.updateTodoHandler)
-	router.HandlerFunc(http.MethodDelete, "/todos/:id", app.deleteTodoHandler)
+	router.HandlerFunc(http.MethodGet, "/user/:userId/todos", app.requireAuthenticatedUser(app.getTodosByUserIdHandler))
+	router.HandlerFunc(http.MethodGet, "/todos/:id", app.requireAuthenticatedUser(app.getTodoByIdHandler))
+	router.HandlerFunc(http.MethodPost, "/todos", app.requireAuthenticatedUser(app.createTodoHandler))
+	router.HandlerFunc(http.MethodPatch, "/todos/:id", app.requireAuthenticatedUser(app.updateTodoHandler))
+	router.HandlerFunc(http.MethodDelete, "/todos/:id", app.requireAuthenticatedUser(app.deleteTodoHandler))
 
-	return router
+	return app.authenticate(router)
 }
