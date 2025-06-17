@@ -13,6 +13,7 @@ func (app *application) routes() http.Handler {
 
 	// User routes
 	router.HandlerFunc(http.MethodPost, "/register", app.registerUserHandler)
+	router.HandlerFunc(http.MethodPost, "/login", app.createTokenHandler)
 
 	return router
 }
