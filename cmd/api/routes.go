@@ -22,5 +22,5 @@ func (app *application) routes() http.Handler {
 	router.HandlerFunc(http.MethodPatch, "/todos/:id", app.requireAuthenticatedUser(app.updateTodoHandler))
 	router.HandlerFunc(http.MethodDelete, "/todos/:id", app.requireAuthenticatedUser(app.deleteTodoHandler))
 
-	return app.authenticate(router)
+	return app.enableCORS(app.authenticate(router))
 }
